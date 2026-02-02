@@ -8,6 +8,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from .chat import router as chat_router
+from .email import router as email_router
 from .rag import load_documents
 
 load_dotenv(Path(__file__).parent.parent / ".env")
@@ -32,6 +33,7 @@ app.add_middleware(
 )
 
 app.include_router(chat_router)
+app.include_router(email_router)
 
 
 @app.get("/")

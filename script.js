@@ -24,7 +24,7 @@ function scrollToContact() {
 }
 
 // Contact form submission handler
-document.getElementById('contactForm').addEventListener('submit', function(e) {
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const name = document.getElementById('name').value;
@@ -32,12 +32,30 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     const subject = document.getElementById('subject').value;
     const message = document.getElementById('message').value;
 
-    // In a real application, you would send this data to a server
-    // For now, we'll just show a success message
-    alert(`Thank you, ${name}! Your message has been received. We'll get back to you at ${email} soon.`);
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
 
-    // Clear the form
-    this.reset();
+    try {
+        const res = await fetch('/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, subject, message })
+        });
+        const data = await res.json();
+        if (data.status === 'ok') {
+            alert(`Thank you, ${name}! Your message has been sent. We'll get back to you at ${email} soon.`);
+            this.reset();
+        } else {
+            alert('Sorry, there was a problem sending your message. Please try again later.');
+        }
+    } catch (err) {
+        alert('Sorry, there was a problem sending your message. Please try again later.');
+    } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
 });
 
 // Add active class to navigation links on scroll
