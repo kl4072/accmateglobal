@@ -86,5 +86,86 @@ document.querySelectorAll('.service-card').forEach(card => {
     observer.observe(card);
 });
 
+// Chat Widget
+const CHAT_API_URL = '/chat';
+let chatHistory = [];
+
+function toggleChat() {
+    const win = document.getElementById('chat-window');
+    win.classList.toggle('chat-hidden');
+    if (!win.classList.contains('chat-hidden')) {
+        document.getElementById('chat-input').focus();
+    }
+}
+
+function appendChatMessage(role, text) {
+    const container = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + role;
+    div.textContent = text;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+    return div;
+}
+
+async function sendChatMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = '';
+    appendChatMessage('user', text);
+
+    const assistantDiv = appendChatMessage('assistant', '');
+    let fullResponse = '';
+
+    try {
+        const res = await fetch(CHAT_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: text, history: chatHistory })
+        });
+
+        if (!res.ok) {
+            const err = await res.json().catch(() => null);
+            assistantDiv.textContent = err?.error || 'Something went wrong. Please try again.';
+            return;
+        }
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            const chunk = decoder.decode(value);
+            const lines = chunk.split('\n');
+            for (const line of lines) {
+                if (line.startsWith('data: ')) {
+                    const data = line.slice(6);
+                    if (data === '[DONE]') break;
+                    if (data.startsWith('[ERROR]')) {
+                        assistantDiv.textContent = data.slice(8);
+                        return;
+                    }
+                    fullResponse += data;
+                    assistantDiv.textContent = fullResponse;
+                }
+            }
+            document.getElementById('chat-messages').scrollTop =
+                document.getElementById('chat-messages').scrollHeight;
+        }
+
+        chatHistory.push({ role: 'user', content: text });
+        chatHistory.push({ role: 'assistant', content: fullResponse });
+    } catch (err) {
+        assistantDiv.textContent = 'Unable to connect to the assistant. Please try again later.';
+    }
+}
+
+document.getElementById('chat-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') sendChatMessage();
+});
+
 // Mobile menu toggle (for future enhancement)
 console.log('AccMate web app loaded successfully!');

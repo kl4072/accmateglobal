@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+anthropic
+scikit-learn
+python-dotenv

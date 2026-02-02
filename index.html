@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AccMate - Professional Accounting Services</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>AccMate - Global Services Inc</title>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="logo">
-                <h1>AccMate</h1>
-                <p class="tagline">Your Trusted Accounting Partner</p>
+                <h1>AccMate - Global Services Inc.</h1>
+                <p class="tagline">Your Trusted Partner in Accounting and Business Consultancy</p>
             </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
@@ -80,7 +80,7 @@
             <div class="about-content">
                 <div class="about-text">
                     <h3>Your Trusted Financial Partner</h3>
-                    <p>AccMate is a leading accounting firm dedicated to providing exceptional financial services to businesses and individuals. With years of experience and a team of certified professionals, we deliver accurate, reliable, and timely accounting solutions.</p>
+                    <p>AccMate Global Services is a accounting firm dedicated to providing exceptional financial services to businesses and individuals. With years of experience and a team of certified professionals, we deliver accurate, reliable, and timely accounting solutions.</p>
                     <p>Our commitment to excellence and client satisfaction has made us the preferred choice for businesses seeking comprehensive accounting services.</p>
                     <div class="stats">
                         <div class="stat">
@@ -88,11 +88,11 @@
                             <p>Clients Served</p>
                         </div>
                         <div class="stat">
-                            <h4>15+</h4>
+                            <h4>20+</h4>
                             <p>Years Experience</p>
                         </div>
                         <div class="stat">
-                            <h4>98%</h4>
+                            <h4>99%</h4>
                             <p>Client Satisfaction</p>
                         </div>
                     </div>
@@ -109,16 +109,20 @@
                 <div class="contact-info">
                     <h3>Get in Touch</h3>
                     <div class="info-item">
+                        <strong>Contact:</strong>
+                        <p>Sureshkumar Sithambaram MBA,CPA,FCA,BBA Hons</p>
+                    </div>
+                    <div class="info-item">
                         <strong>Email:</strong>
-                        <p>info@accmate.com</p>
+                        <p>suresh.accmate@gmail.com</p>
                     </div>
                     <div class="info-item">
                         <strong>Phone:</strong>
-                        <p>(555) 123-4567</p>
+                        <p>(437) 556-0406</p>
                     </div>
                     <div class="info-item">
                         <strong>Address:</strong>
-                        <p>123 Business Street<br>Suite 100<br>New York, NY 10001</p>
+                        <p>Scarborough<br>Suite 100<br>Canada</p>
                     </div>
                     <div class="info-item">
                         <strong>Business Hours:</strong>
@@ -149,10 +153,28 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 AccMate. All rights reserved.</p>
+            <p>&copy; 2026 AccMate Global Services Inc. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Chat Widget -->
+    <div id="chat-widget">
+        <button id="chat-toggle" onclick="toggleChat()" aria-label="Open chat">
+            <span id="chat-toggle-icon">&#128172;</span>
+        </button>
+        <div id="chat-window" class="chat-hidden">
+            <div class="chat-header">
+                <span>AccMate Assistant</span>
+                <button onclick="toggleChat()" aria-label="Close chat">&times;</button>
+            </div>
+            <div id="chat-messages" class="chat-messages"></div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Ask about our services..." autocomplete="off">
+                <button id="chat-send" onclick="sendChatMessage()">&#10148;</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
 </body>
 </html>
